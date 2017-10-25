@@ -87,7 +87,8 @@ private:
 	void gotoTarget(const TLaserData &tLaser);
 	bool obstacle(TLaserData tLaser);
 	bool targetAtSight(TLaserData tLaser);
-	void bug(const TLaserData &tLaser, const TBaseState& bState);
+// 	void bug(const TLaserData &tLaser, const TBaseState& bState);
+	void bug(const TLaserData &tLaser, const TBaseState &bState);
 	//1.-Se dibuja una línea recta “linea” desde la base del robot hacia la meta.
 	//2.- El robot sigue esa línea “linea” hasta llegar a una de las siguientes situaciones:
 	//	a.-El robot llega a la meta y se para.
@@ -95,10 +96,14 @@ private:
 	//	y avances siempre hacia la izquierda, hasta encontrase de nuevo con la línea “linea”.
 	//	Y se pasa de nuevo al paso número 2
 	QLine2D linea; 
-	float obstacleLeft( const TLaserData& tLaser);
+// 	float obstacleLeft( const TLaserData& tLaser);
+	float obstacleLeft( const TLaserData &tLaser);
 	//Almacena la distanciaAnterior distancia en perpendicular hasta la linea
 	float distanciaAnterior;
-	float distanceToLine(const TBaseState& bState);
+// 	float distanceToLine(const TBaseState& bState);
+	float distanceToLine(const TBaseState &bState);
+
+  
 };
 
 #endif

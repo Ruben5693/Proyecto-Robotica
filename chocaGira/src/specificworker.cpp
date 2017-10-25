@@ -146,11 +146,11 @@ void SpecificWorker::setPick(const Pick &myPick)
 }
 
 
+// void SpecificWorker::bug(const TLaserData &tLaser, const TBaseState& bState)
 void SpecificWorker::bug(const TLaserData &tLaser, const TBaseState& bState)
-
 {
   
-  qDebug() << "Dentro de Bug";
+//   qDebug() << "Dentro de Bug";
   if( obstacle(tLaser) == false){
     
     const float alpha = log ( 0.1 ) /log ( 0.3 ); //amortigua /corte
@@ -161,7 +161,7 @@ void SpecificWorker::bug(const TLaserData &tLaser, const TBaseState& bState)
       state = State::GOTO;
       qDebug() << "Objetivo visible: de BUG A GOTO";
       return;
-    }
+    }      
     
     //El robot llega a un obstáculo, y lo rodea realizando pequeñas rotaciones
     //y avances siempre hacia la izquierda, hasta encontrase de nuevo con la línea “linea”.
@@ -183,6 +183,7 @@ void SpecificWorker::bug(const TLaserData &tLaser, const TBaseState& bState)
     differentialrobot_proxy->setSpeedBase ( vadv ,vrot );
     
   }else{
+
     
       try{
 	differentialrobot_proxy->setSpeedBase(0, 0.3);
@@ -194,7 +195,7 @@ void SpecificWorker::bug(const TLaserData &tLaser, const TBaseState& bState)
 bool SpecificWorker::obstacle ( TLaserData tLaser ){
   
   const int offset = 35;
-  const int minDist = 200;
+  const int minDist = 350;
 	
   //ordena los datos del laser desde la distancia mas corta a la mas larga y checkea si el primero
   //es menor que minDist 	 
@@ -211,7 +212,7 @@ bool SpecificWorker::targetAtSight(TLaserData tLaser){
      polygon << QPointF(lr.x(), lr.z());
   }
   QVec t = pick.getAux();
-  return  polygon.contains(QPointF(t.x(), t.z() ));
+  return  polygon.containsPoint(QPointF(t.x(), t.z() ),Qt::WindingFill);
   
 }
 
@@ -219,7 +220,8 @@ bool SpecificWorker::targetAtSight(TLaserData tLaser){
 //Devuelve el obstaculo  visible en el laser que esta mas cercano a la izquierda
 // El robot llega a un obstáculo, y lo rodea realizando pequeñas rotaciones
 //y avances siempre hacia la izquierda
-float SpecificWorker::obstacleLeft(const TLaserData& tLaser){
+// float SpecificWorker::obstacleLeft(const TLaserData& tLaser){
+  float SpecificWorker::obstacleLeft(const TLaserData &tLaser){
   
   const int laserpos = 85;
   float min = tLaser[laserpos].dist;
@@ -235,7 +237,8 @@ float SpecificWorker::obstacleLeft(const TLaserData& tLaser){
 //si la distanciaAnterior<100 y la diferencia es < 0 estamos cruzando la linea, es decir
 //si la distanciaActual a la linea es menor que 100 y la distanciaAnterior>distanciaActual
 //hemos llegado a la linea y seguimos hacia el objetivo.
-float SpecificWorker::distanceToLine(const TBaseState& bState){
+// float SpecificWorker::distanceToLine(const TBaseState& bState){
+float SpecificWorker::distanceToLine(const TBaseState &bState){
   
   QVec posicion = QVec::vec3(bState.x, 0., bState.z);
   float distanciaActual = fabs(linea.perpendicularDistanceToPoint(posicion));
